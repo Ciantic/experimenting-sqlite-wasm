@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "deno",
+            "command": "run",
+            "problemMatcher": ["$deno"],
+            "label": "deno: run"
+        },
+        {
+            "label": "deno bundle",
+            "type": "shell",
+            "command": "deno run -A deno-build-typescript.ts \"./index.ts\" \"./index.js\"",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false
+            }
+        }
+    ]
+}

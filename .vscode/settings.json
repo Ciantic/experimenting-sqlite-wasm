@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "deno.enable": true,
+    "deno.unstable": true,
+    "triggerTaskOnSave.tasks": {
+        "deno bundle": ["**/*.ts", "**/*.tsx"]
+    }
+}

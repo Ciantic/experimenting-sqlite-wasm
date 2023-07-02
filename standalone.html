@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        LOOK AT THE CONSOLE
+        <script type="module">
+            import sqlite3InitModule from "https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.42.0-build2/sqlite-wasm/jswasm/sqlite3-bundler-friendly.mjs";
+
+            const sqlite3 = await sqlite3InitModule({
+                locateFile: (file) => {
+                    return "https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.42.0-build2/sqlite-wasm/jswasm/sqlite3.wasm";
+                },
+            });
+
+            // SQLite's C API
+            const capi = sqlite3.capi;
+            console.log("sqlite3 version", capi.sqlite3_libversion(), capi.sqlite3_sourceid());
+
+            // OO API example below oo1 docs https://sqlite.org/wasm/doc/tip/api-oo1.md
+            const oo = sqlite3.oo1;
+
+            const db = new oo.DB();
+            const createPersonTableSql = `
+                CREATE TABLE IF NOT EXISTS person (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    age INTEGER NOT NULL
+                );
+            `;
+
+            const insertPerson1Sql = `
+                INSERT INTO person (name, age) VALUES ('Alice', 42);
+            `;
+            const insertPerson2Sql = `
+                INSERT INTO person (name, age) VALUES ('Bob', 42);
+            `;
+
+            db.exec([createPersonTableSql, insertPerson1Sql, insertPerson2Sql]);
+            const res = db.selectArrays("select * from person");
+            console.log(db, res);
+        </script>
+    </body>
+</html>
